@@ -9,10 +9,10 @@
 #define F_CPU 100000000
 #define NODEMO
 
-static lv_disp_draw_buf_t draw_buf;
-lv_color_t *buf = NULL;
+volatile static lv_disp_draw_buf_t draw_buf;
 
-//static lv_color_t buf[ 100 * 100 ];
+volatile static lv_color_t *buf1 = NULL;
+volatile static lv_color_t *buf2 = NULL;
 
 static uint32_t tsc_hi, tsc_lo;
 int tmp, freq_khz;
@@ -118,15 +118,20 @@ main(void)
     printf("Hello, f32c/%s world!\n", arch);
 
     fb_set_mode(0);
+    // Test f32c text to framebuffer
+    fb_text(100, 100, "No LVGL FB test", 0x0000, 0xffff, 3);
+    delay(2000);
 
     lv_init();
+
+    buf1 = malloc(512 * 288 * 16);
+    buf2 = malloc(512 * 288 * 16);
 
     lv_log_register_print_cb( printf ); /* register print function for debugging */
 
     /* static lv_color_t * */
-    buf = malloc( 512 * 288 * 16 );
 
-    lv_disp_draw_buf_init( &draw_buf, buf, NULL, 512 * 288 );
+    lv_disp_draw_buf_init( &draw_buf, buf1, buf2, 512 * 288 * 16);
     /*Initialize the display*/
     static lv_disp_drv_t disp_drv;
 
@@ -135,13 +140,13 @@ main(void)
     disp_drv.flush_cb = disp_flush_cb;
 
     /*Set the resolution of the display*/
-    //512x288
     disp_drv.hor_res = 512;
     disp_drv.ver_res = 288;
 
 //    disp_drv.rounder_cb = disp_driver_rounder;
     disp_drv.set_px_cb  = disp_driver_set_px;
     disp_drv.draw_buf = &draw_buf;
+    disp_drv.full_refresh = true;
 
     lv_disp_drv_register( &disp_drv );
 
@@ -149,14 +154,14 @@ main(void)
     /*Change the active screen's background color*/
     delay(1000);
     printf("Setting background color\n");
-    lv_obj_set_style_bg_color(lv_scr_act(), lv_color_hex(0xff), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(lv_scr_act(), lv_color_hex(0xffff), LV_PART_MAIN);
     delay(1000);
     /*Create a white label, set its text and align it to the center*/
     lv_obj_t * label = lv_label_create(lv_scr_act());
     delay(1000);
     printf("Creating label\n");    
     lv_label_set_text(label, "Hello world");
-    lv_obj_set_style_text_color(lv_scr_act(), lv_color_hex(0x00), LV_PART_MAIN);
+    lv_obj_set_style_text_color(lv_scr_act(), lv_color_hex(0x0000), LV_PART_MAIN);
     delay(1000);
     printf("Align label\n");    
     lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
@@ -165,13 +170,13 @@ main(void)
     printf("Setting up demo widgets\n");    
     lv_demo_widgets();
     delay(1000);
-    printf("Widgets setup done\n");        
+    printf("Widgets setup done\n");
 #endif
 
     while(1){
         delay(500);
         printf("In the loop\n");
-        //printf("Millis: %i\n", millis());
+        printf("Millis: %i\n", millis());
         lv_timer_handler(); /* let the GUI do its work */
     }
 }

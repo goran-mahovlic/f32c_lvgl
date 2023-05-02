@@ -6,9 +6,11 @@ Flash f32c bitstream to your FPGA board
 
 git clone --recurse-submodules https://github.com/goran-mahovlic/f32c_lvgl.git
 
-### Fixing one line log bug in lvgl v 8.3.0
+### Fixing few bug in lvgl v 8.3.0
 
 cp lv_draw_sw_letter.c lvgl/src/draw/sw/lv_draw_sw_letter.c
+
+cp lv_demo_benchmark.* lvgl/demos/benchmark/
 
 ### You will need f32c with all libraries build
 

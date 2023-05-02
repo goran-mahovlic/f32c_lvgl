@@ -16,6 +16,9 @@ volatile static lv_color_t *buf1 = NULL;
 #define F32C_VIDEOHEIGHT 288
 #define BLACK 0x0000
 
+// uncomment if you are using LOG
+//#define DEBUG
+
 //volatile static lv_color_t *buf2 = NULL;
 
 static uint32_t tsc_hi, tsc_lo;
@@ -137,7 +140,9 @@ main(void)
     buf1 = malloc(F32C_VIDEOWIDTH * F32C_VIDEOHEIGHT * 16);
     //buf2 = malloc(512 * 288 * 16);
 
-    lv_log_register_print_cb( printf ); /* register print function for debugging */
+    #ifdef DEBUG
+        lv_log_register_print_cb( printf ); /* register print function for debugging */
+    #endif
 
     /* static lv_color_t * */
 

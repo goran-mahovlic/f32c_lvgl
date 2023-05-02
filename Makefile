@@ -6,7 +6,7 @@ LVGL_PATH ?= ${shell pwd}/lvgl
 CFLAGS += "-I$(LVGL_PATH)"
 CFLAGS += "-std=c99"
 CFLAGS += "-Wno-error"
-CFLAGS += -DLV_LVGL_H_INCLUDE_SIMPLE
+#CFLAGS += -DLV_LVGL_H_INCLUDE_SIMPLE
 #CFLAGS += "-fno-builtin-ffs"
 #CFLAGS += "-G128000"
 

@@ -30,7 +30,7 @@
     #endif
 
 #else       /*LV_MEM_CUSTOM*/
-    #define LV_MEM_ADR 0x40000000
+    //#define LV_MEM_ADR 0x80080000
     #define LV_MEM_CUSTOM_INCLUDE <stdlib.h>   /*Header for the dynamic memory function*/
     #define LV_MEM_CUSTOM_ALLOC   malloc
     #define LV_MEM_CUSTOM_FREE    free
@@ -395,10 +395,10 @@ typedef	uint32_t uint_fast32_t;
  *https://fonts.google.com/specimen/Montserrat*/
 #define LV_FONT_MONTSERRAT_8  0
 #define LV_FONT_MONTSERRAT_10 0
-#define LV_FONT_MONTSERRAT_12 0
+#define LV_FONT_MONTSERRAT_12 1
 #define LV_FONT_MONTSERRAT_14 1
 #define LV_FONT_MONTSERRAT_16 0
-#define LV_FONT_MONTSERRAT_18 0
+#define LV_FONT_MONTSERRAT_18 1
 #define LV_FONT_MONTSERRAT_20 0
 #define LV_FONT_MONTSERRAT_22 0
 #define LV_FONT_MONTSERRAT_24 0

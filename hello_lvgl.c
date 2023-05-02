@@ -7,10 +7,12 @@
 //#include <examples/lv_examples.h>
 
 #define F_CPU 100000000
-//#define NODEMO
+#define NODEMO
 
 static lv_disp_draw_buf_t draw_buf;
-static lv_color_t buf[ 640 * 480 ];
+lv_color_t *buf = NULL;
+
+//static lv_color_t buf[ 100 * 100 ];
 
 static uint32_t tsc_hi, tsc_lo;
 int tmp, freq_khz;
@@ -64,6 +66,16 @@ millis(void)
     return((tsc64 * 1000) / F_CPU);
 }
 
+
+void disp_driver_rounder(lv_disp_drv_t * disp_drv, lv_area_t * area)
+{
+  /* Update the areas as needed. Can be only larger.
+   * For example to always have lines 8 px height:*/
+   area->y1 = area->y1 & 0x07;
+   area->y2 = (area->y2 & 0x07) + 8;
+}
+
+/*
 void disp_driver_rounder(lv_disp_drv_t * disp_drv, lv_area_t * area)
 {
     uint8_t hor_max = disp_drv->hor_res;
@@ -74,6 +86,7 @@ void disp_driver_rounder(lv_disp_drv_t * disp_drv, lv_area_t * area)
     area->x2 = hor_max - 1;
     area->y2 = ver_max - 1;
 }
+*/
 
 void disp_driver_set_px(lv_disp_drv_t * disp_drv, uint8_t * buf, lv_coord_t buf_w, lv_coord_t x, lv_coord_t y,
     lv_color_t * color_p, lv_opa_t opa) 
@@ -110,7 +123,10 @@ main(void)
 
     lv_log_register_print_cb( printf ); /* register print function for debugging */
 
-    lv_disp_draw_buf_init( &draw_buf, buf, NULL, 640 * 480 );
+    /* static lv_color_t * */
+    buf = malloc( 512 * 288 * 16 );
+
+    lv_disp_draw_buf_init( &draw_buf, buf, NULL, 512 * 288 );
     /*Initialize the display*/
     static lv_disp_drv_t disp_drv;
 
@@ -120,10 +136,10 @@ main(void)
 
     /*Set the resolution of the display*/
     //512x288
-    disp_drv.hor_res = 640;
-    disp_drv.ver_res = 480;
+    disp_drv.hor_res = 512;
+    disp_drv.ver_res = 288;
 
-    disp_drv.rounder_cb = disp_driver_rounder;
+//    disp_drv.rounder_cb = disp_driver_rounder;
     disp_drv.set_px_cb  = disp_driver_set_px;
     disp_drv.draw_buf = &draw_buf;
 

@@ -12,6 +12,7 @@
  */
 
 /* XXX f32c attempt MZ START */
+#include <sys/stdint.h>
 #define LV_USE_DEV_VERSION
 #define LV_USE_BUILTIN_MALLOC 0
 
@@ -38,13 +39,10 @@
 #endif     /*LV_MEM_CUSTOM*/
 
 
-typedef	uint32_t uint_fast32_t;
 /* XXX f32c attempt MZ END */
 
 #ifndef LV_CONF_H
 #define LV_CONF_H
-
-#include <stdint.h>
 
 /*====================
    COLOR SETTINGS
@@ -54,6 +52,8 @@ typedef	uint32_t uint_fast32_t;
 #define LV_COLOR_DEPTH 16
 
 #define LV_COLOR_CHROMA_KEY lv_color_hex(0x00ff00)
+
+#define LV_COLOR_16_SWAP 0
 
 /*=========================
    STDLIB WRAPPER SETTINGS
@@ -85,9 +85,8 @@ typedef	uint32_t uint_fast32_t;
     #define LV_SPRINTF_USE_FLOAT 0
 #endif  /*LV_USE_BUILTIN_SNPRINTF*/
 
-#define LV_STDLIB_INCLUDE <stdlib.h>
-#define LV_STDIO_INCLUDE  <stdint.h>
-#define LV_STRING_INCLUDE <stdint.h>
+#define LV_STDIO_INCLUDE  <stdio.h>
+#define LV_STRING_INCLUDE <string.h>
 #define LV_MALLOC       malloc
 #define LV_REALLOC      realloc
 #define LV_FREE         free
@@ -251,7 +250,7 @@ typedef	uint32_t uint_fast32_t;
  *-----------*/
 
 /*Enable the log module*/
-#define LV_USE_LOG 0
+#define LV_USE_LOG 1
 #if LV_USE_LOG
 
     /*How important log should be added:

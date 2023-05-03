@@ -2,6 +2,7 @@
  * LVGL test
  */
 
+#include <stdlib.h>
 #include "hello_lvgl.h"
 #include <demos/lv_demos.h>
 //#include <examples/lv_examples.h>
@@ -9,9 +10,9 @@
 #define F_CPU 100000000
 #define NODEMO
 
-volatile static lv_disp_draw_buf_t draw_buf;
+static lv_disp_draw_buf_t draw_buf;
+static lv_color_t *buf1 = NULL;
 
-volatile static lv_color_t *buf1 = NULL;
 #define F32C_VIDEOWIDTH 512
 #define F32C_VIDEOHEIGHT 288
 #define BLACK 0x0000

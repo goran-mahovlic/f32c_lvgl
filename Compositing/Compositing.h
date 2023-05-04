@@ -6,9 +6,6 @@ extern "C"
 {
 #endif
 
-#ifndef COMPOSITING_H
-#define COMPOSITING_H
-
 extern "C"
 {
   #include "compositing_line.h"
@@ -62,9 +59,8 @@ class Compositing
     void sprite_link_content(int original, int clone);
 };
 
-#endif
-
 #ifdef __cplusplus
 }
 #endif
+
 #endif

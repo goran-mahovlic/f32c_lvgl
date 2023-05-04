@@ -2,13 +2,16 @@
  * LVGL test
  */
 
+extern "C" {
+#include <math.h>
 #include <stdlib.h>
 #include "hello_lvgl.h"
 #include <demos/lv_demos.h>
-#include "Compositing/Compositing.h"
 //#include <examples/lv_examples.h>
+}
 
-#include <math.h>
+#include "Compositing/Compositing.h"
+
 #define SPRITE_MAX 10
 
 //                            RRGGBB
@@ -149,11 +152,18 @@ main(void)
 
     printf("Hello, f32c/%s world!\n", arch);
 
-      c2.init();
-      c2.alloc_sprites(SPRITE_MAX);
-      
-      // sprite 0: ball
-      c2.sprite_fill_rect(8, 8, C2_WHITE);
+  c2.init();
+  c2.alloc_sprites(SPRITE_MAX);
+  
+  // sprite 0: ball
+  c2.sprite_fill_rect(100, 100, C2_ORANGE);
+  // draw them all
+  c2.sprite_refresh();
+  *c2.cntrl_reg = 0b11000000; // enable video, yes bitmap, no text mode, no cursor
+  
+  //expectBY = expectB();
+
+  delay(5000);
 //    fb_set_mode(1);
     // Test f32c text to framebuffer
 //    fb_text(100, 100, "No LVGL FB test", 0x0000, 0xffff, 3);
@@ -161,7 +171,7 @@ main(void)
 
     lv_init();
 
-    buf1 = malloc(F32C_VIDEOWIDTH * F32C_VIDEOHEIGHT * 16);
+    buf1 = (lv_color_t *) malloc(F32C_VIDEOWIDTH * F32C_VIDEOHEIGHT * 16);
     //buf2 = malloc(512 * 288 * 16);
 
     #ifdef DEBUG

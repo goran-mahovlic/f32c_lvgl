@@ -1,6 +1,14 @@
 #ifndef COMPOSITING_H
 #define COMPOSITING_H
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+#ifndef COMPOSITING_H
+#define COMPOSITING_H
+
 extern "C"
 {
   #include "compositing_line.h"
@@ -8,8 +16,8 @@ extern "C"
   #include "shape.h"
 }
 
-#include <Arduino.h>
-#include <inttypes.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define VGA_X_MAX 640
 #define VGA_Y_MAX 480
@@ -54,4 +62,9 @@ class Compositing
     void sprite_link_content(int original, int clone);
 };
 
+#endif
+
+#ifdef __cplusplus
+}
+#endif
 #endif

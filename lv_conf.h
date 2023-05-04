@@ -13,6 +13,7 @@
 
 /* XXX f32c attempt MZ START */
 #include <sys/stdint.h>
+#include <inttypes.h>
 #define LV_USE_DEV_VERSION
 #define LV_USE_BUILTIN_MALLOC 0
 

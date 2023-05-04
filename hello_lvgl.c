@@ -5,7 +5,23 @@
 #include <stdlib.h>
 #include "hello_lvgl.h"
 #include <demos/lv_demos.h>
+#include "Compositing/Compositing.h"
 //#include <examples/lv_examples.h>
+
+#include <math.h>
+#define SPRITE_MAX 10
+
+//                            RRGGBB
+#define C2_WHITE  RGB2PIXEL(0xFFFFFF)
+#define C2_GREEN  RGB2PIXEL(0x002200)
+#define C2_ORANGE RGB2PIXEL(0xFF7F00)
+#define C2_BLUE   RGB2PIXEL(0x4080FF)
+
+//#define RESOLUTION_X VGA_X_MAX
+// 624x480 16bpp is max useable until SDRAM burst is supported
+#define RESOLUTION_X 624
+#define RESOLUTION_Y 480
+#define OFF_SCREEN_Y 2000
 
 #define F_CPU 100000000
 #define NODEMO
@@ -13,8 +29,10 @@
 static lv_disp_draw_buf_t draw_buf;
 static lv_color_t *buf1 = NULL;
 
-#define F32C_VIDEOWIDTH 512
-#define F32C_VIDEOHEIGHT 288
+Compositing c2;
+
+#define F32C_VIDEOWIDTH RESOLUTION_X
+#define F32C_VIDEOHEIGHT RESOLUTION_Y
 #define BLACK 0x0000
 
 // uncomment if you are using LOG
@@ -131,10 +149,15 @@ main(void)
 
     printf("Hello, f32c/%s world!\n", arch);
 
-    fb_set_mode(0);
+      c2.init();
+      c2.alloc_sprites(SPRITE_MAX);
+      
+      // sprite 0: ball
+      c2.sprite_fill_rect(8, 8, C2_WHITE);
+//    fb_set_mode(1);
     // Test f32c text to framebuffer
-    fb_text(100, 100, "No LVGL FB test", 0x0000, 0xffff, 3);
-    delay(1000);
+//    fb_text(100, 100, "No LVGL FB test", 0x0000, 0xffff, 3);
+//    delay(1000);
 
     lv_init();
 
